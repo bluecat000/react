@@ -1,5 +1,4 @@
 import React from 'react';
-import Item from './Item';
 import Dialog from './Dialog';
 
 class List extends React.Component {
@@ -24,19 +23,19 @@ class List extends React.Component {
     ];
 
     this.state = {
-      dialog: false,
+      dialogId: 0,
     }
   }
 
-  openDialog() {
+  openDialog(data) {
     this.setState({
-      dialog: true
+      dialogId: data.id,
     })
   }
 
   closeDialog() {
     this.setState({
-      dialog: false
+      dialogId: 0,      
     })
   }
 
@@ -46,12 +45,25 @@ class List extends React.Component {
         <ul>
           {
             this.list.map(function (v, k, arr) {
-              return <Item key={v.id} id={v.id} openDialog={this.openDialog.bind(this)} />
+              return (
+                <li key={v.id}>
+                  <button onClick={this.openDialog.bind(this, v)}>
+                    按钮
+                </button>
+                </li>
+              )
             }, this)
           }
         </ul>
         {
-          <Dialog isActive={this.state.dialog} closeDialog={this.closeDialog.bind(this)} />
+          <Dialog id="id" isActive={this.state.dialogId} closeDialog={this.closeDialog.bind(this)} text={this.state.dialogId}>
+            <h1 className="Dialog-title">
+              Welcome
+            </h1>
+            <p className="Dialog-message">
+              Thank you for visiting our spacecraft!
+            </p>
+          </Dialog>
         }
       </div>
     )
